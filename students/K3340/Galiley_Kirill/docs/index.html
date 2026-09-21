@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Отчет по ЛР1–ЛР3 | GitHub Pages</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --bg2: #0f1a2c;
+      --panel: rgba(15, 26, 44, 0.84);
+      --border: rgba(148, 163, 184, 0.18);
+      --text: #e5eefc;
+      --muted: #9fb0c8;
+      --accent: #63b3ff;
+      --accent2: #8bffcb;
+      --accent3: #ffd166;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(99, 179, 255, 0.18), transparent 35%),
+        radial-gradient(circle at top right, rgba(139, 255, 203, 0.14), transparent 30%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 56px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(14, 25, 44, 0.96), rgba(17, 33, 57, 0.92));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -120px -120px auto;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 179, 255, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent2);
+      box-shadow: 0 0 0 6px rgba(139, 255, 203, 0.08);
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      max-width: 12ch;
+      margin-bottom: 16px;
+    }
+
+    .lead {
+      max-width: 72ch;
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-weight: 600;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(99, 179, 255, 0.4);
+      text-decoration: none;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(99, 179, 255, 0.26), rgba(139, 255, 203, 0.16));
+      border-color: rgba(99, 179, 255, 0.35);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 20px;
+    }
+
+    .card,
+    .section,
+    .note {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .card {
+      padding: 22px;
+      min-height: 100%;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(99, 179, 255, 0.14);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .card h2,
+    .section h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .card p,
+    .section p,
+    li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .list li {
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.72em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent2);
+    }
+
+    .section {
+      padding: 28px;
+      margin-top: 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 78ch;
+      margin-bottom: 16px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 14px 0 10px;
+    }
+
+    .mini-card,
+    .metric,
+    .code-block,
+    .tree {
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .mini-card {
+      padding: 16px 18px;
+    }
+
+    .mini-card h3,
+    .metric strong {
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: var(--accent2);
+    }
+
+    .mini-card p,
+    .metric p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .metric {
+      padding: 16px 18px;
+    }
+
+    .code-block,
+    .tree {
+      margin-top: 14px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .tree {
+      white-space: pre;
+    }
+
+    .bullet {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 760px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--text);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .step strong {
+      color: var(--accent2);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 20px 24px;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 18px 4px 0;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 920px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 28px 22px;
+      }
+
+      .section {
+        padding: 22px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: min(100% - 20px, 1120px);
+        padding-top: 18px;
+      }
+
+      .mini-grid,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow"><span></span> GitHub Pages отчет по трем лабораторным работам</div>
+      <h1>ЛР1, ЛР2 и ЛР3 в одном отчете</h1>
+      <p class="lead">
+        Это стартовая страница для публикации на GitHub Pages. Здесь собран краткий обзор всех трех работ,
+        их технологический стек и ссылки на подробные страницы отчета по каждой лабораторной.
+      </p>
+      <div class="meta">
+        <div class="pill">FastAPI, SQLAlchemy, PostgreSQL</div>
+        <div class="pill">threading, multiprocessing, asyncio</div>
+        <div class="pill">Docker, Redis, Celery</div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="#labs">Открыть обзор работ</a>
+        <a class="btn" href="#lab1">ЛР1</a>
+        <a class="btn" href="#lab2">ЛР2</a>
+        <a class="btn" href="#lab3">ЛР3</a>
+      </div>
+    </header>
+
+    <section class="grid cards" id="labs">
+      <article class="card" id="lab1">
+        <div class="tag">ЛР1</div>
+        <h2>FastAPI сервер для управления задачами</h2>
+        <p>
+          В первой работе реализовано серверное приложение Time Manager API с аутентификацией JWT,
+          ORM на SQLAlchemy, миграциями Alembic и PostgreSQL как основной базой данных.
+        </p>
+        <ul class="list">
+          <li>Роутеры для пользователей, категорий, тегов, задач и времени</li>
+          <li>Авторизация и хэширование паролей</li>
+          <li>Подготовленная структура для расширения API</li>
+        </ul>
+        <p style="margin-top:14px"><a href="#lab1-details">Открыть подробный отчет →</a></p>
+      </article>
+
+      <article class="card" id="lab2">
+        <div class="tag">ЛР2</div>
+        <h2>Параллелизм: потоки, процессы и async</h2>
+        <p>
+          Во второй работе сравниваются подходы threading, multiprocessing и asyncio на CPU-bound и
+          I/O-bound задачах: вычисление суммы и параллельный парсинг страниц с сохранением в БД.
+        </p>
+        <ul class="list">
+          <li>Сравнение производительности подходов</li>
+          <li>Использование aiohttp, requests и BeautifulSoup</li>
+          <li>Запись результатов в PostgreSQL</li>
+        </ul>
+        <p style="margin-top:14px"><a href="#lab2-details">Открыть подробный отчет →</a></p>
+      </article>
+
+      <article class="card" id="lab3">
+        <div class="tag">ЛР3</div>
+        <h2>Docker, парсер и Celery-очередь</h2>
+        <p>
+          Третья работа объединяет API из ЛР1, парсер-сервис, Redis и Celery. Приложение упаковано в
+          Docker и запускается через docker-compose как набор связанных сервисов.
+        </p>
+        <ul class="list">
+          <li>Отдельный контейнер для API и парсера</li>
+          <li>Очередь задач через Celery + Redis</li>
+          <li>HTTP-вызов парсера и фоновые задачи</li>
+        </ul>
+        <p style="margin-top:14px"><a href="#lab3-details">Открыть подробный отчет →</a></p>
+      </article>
+    </section>
+
+    <section class="section" id="lab1-details">
+      <h2>ЛР1 — FastAPI сервер для управления задачами</h2>
+      <p class="section-subtitle">
+        В первой работе реализовано серверное приложение Time Manager API. Оно объединяет аутентификацию,
+        CRUD-операции, работу с PostgreSQL и миграции Alembic.
+      </p>
+      <div class="mini-grid">
+        <div class="mini-card">
+          <h3>Назначение</h3>
+          <p>Сервер помогает управлять задачами, категоризировать их, добавлять теги и учитывать затраченное время.</p>
+        </div>
+        <div class="mini-card">
+          <h3>Результат</h3>
+          <p>Получен рабочий backend с документацией Swagger и подготовленной схемой данных для расширения.</p>
+        </div>
+      </div>
+      <h3 id="lab1-stack">Технологический стек</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Компонент</th>
+              <th>Используется</th>
+              <th>Назначение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Web-фреймворк</td><td>FastAPI</td><td>Маршрутизация, dependency injection, OpenAPI</td></tr>
+            <tr><td>ORM</td><td>SQLAlchemy 2.0</td><td>Работа с таблицами PostgreSQL</td></tr>
+            <tr><td>Миграции</td><td>Alembic</td><td>Управление схемой базы данных</td></tr>
+            <tr><td>JWT</td><td>python-jose, passlib[bcrypt]</td><td>Авторизация и хэширование паролей</td></tr>
+            <tr><td>База данных</td><td>PostgreSQL</td><td>Хранение пользователей, задач и времени</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="lab1-structure" style="margin-top:22px">Структура файлов</h3>
+      <div class="tree">lab1/
+├── app/
+│   ├── main.py
+│   ├── config.py
+│   ├── database.py
+│   ├── models/
+│   ├── schemas/
+│   ├── crud/
+│   ├── routers/
+│   └── auth/
+├── alembic/
+├── alembic.ini
+├── requirements.txt
+└── Dockerfile</div>
+      <h3 id="lab1-models" style="margin-top:22px">Модель данных</h3>
+      <p class="section-subtitle">В проекте используется шесть основных таблиц. Связи построены так, чтобы поддерживать категории, теги и учет затраченного времени.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Таблица</th>
+              <th>Смысл</th>
+              <th>Связи</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>users</td><td>Пользователи системы</td><td>Один пользователь владеет задачами</td></tr>
+            <tr><td>categories</td><td>Категории задач</td><td>one-to-many с tasks</td></tr>
+            <tr><td>tags</td><td>Теги</td><td>many-to-many с tasks через task_tags</td></tr>
+            <tr><td>tasks</td><td>Задачи с приоритетом и дедлайном</td><td>owner_id, category_id</td></tr>
+            <tr><td>task_tags</td><td>Связующая таблица</td><td>Связь задача ↔ тег и note</td></tr>
+            <tr><td>time_entries</td><td>Записи о затраченном времени</td><td>Связана с tasks и users</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="lab1-api" style="margin-top:22px">API и точки входа</h3>
+      <div class="metric-grid">
+        <div class="metric"><strong>Auth</strong><p>Регистрация, вход и JWT-токены.</p></div>
+        <div class="metric"><strong>Users</strong><p>Работа с профилями пользователей.</p></div>
+        <div class="metric"><strong>Tasks</strong><p>CRUD задач, статусов и приоритетов.</p></div>
+      </div>
+      <div class="note">Основная точка входа — app/main.py, где регистрируются все роутеры и корневой эндпоинт.</div>
+    </section>
+
+    <section class="section" id="lab2-details">
+      <h2>ЛР2 — Потоки, процессы и асинхронность</h2>
+      <p class="section-subtitle">
+        Во второй работе сравниваются три способа делать несколько дел одновременно: потоки, процессы и async.
+        Для проверки использовались две задачи: сумма чисел и парсинг веб-страниц.
+      </p>
+      <div class="mini-grid">
+        <div class="mini-card">
+          <h3>Что проверяется</h3>
+          <p>В какой задаче какой подход работает лучше и где он дает меньше задержек.</p>
+        </div>
+        <div class="mini-card">
+          <h3>Что используется</h3>
+          <p>Результаты парсинга пишутся в ту же PostgreSQL-базу, что и в первой лабораторной.</p>
+        </div>
+      </div>
+      <h3 id="lab2-stack">Технологический стек</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Компонент</th>
+              <th>Используется</th>
+              <th>Назначение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Потоки</td><td>threading</td><td>Параллелизм для I/O-bound и простая синхронизация</td></tr>
+            <tr><td>Процессы</td><td>multiprocessing</td><td>Настоящий параллелизм для CPU-bound задач</td></tr>
+            <tr><td>Async</td><td>asyncio, aiohttp</td><td>Неблокирующие HTTP-запросы и event loop</td></tr>
+            <tr><td>Парсинг</td><td>BeautifulSoup</td><td>Извлечение заголовков HTML-страниц</td></tr>
+            <tr><td>БД</td><td>psycopg2</td><td>Запись результатов в PostgreSQL</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="lab2-task1" style="margin-top:22px">Задача 1 — сумма чисел</h3>
+      <div class="mini-grid">
+        <div class="mini-card"><h3>Потоки</h3><p>Делят один процесс и один словарь результатов. Для этой задачи работают, но не всегда дают большой выигрыш.</p></div>
+        <div class="mini-card"><h3>Процессы</h3><p>Каждый процесс работает отдельно. Это полезно, когда задача тяжелая и нужна настоящая параллельность.</p></div>
+      </div>
+      <div class="code-block">def calculate_sum(start: int, end: int) -&gt; int:
+    return sum(range(start, end + 1))
+
+async def main_async(n: int = N_DEMO) -&gt; float:
+    with ProcessPoolExecutor(max_workers=NUM_WORKERS) as executor:
+        partial_sums = await asyncio.gather(*tasks)</div>
+      <h3 id="lab2-task2" style="margin-top:22px">Задача 2 — параллельный парсинг</h3>
+      <div class="mini-grid">
+        <div class="mini-card"><h3>Потоки</h3><p>Подходят, когда программа ждет сеть. Пока один запрос ждет ответ, другие могут работать.</p></div>
+        <div class="mini-card"><h3>Async</h3><p>Самый удобный вариант для большого числа запросов. Один цикл событий управляет всеми загрузками.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Подход</th>
+              <th>Что делает</th>
+              <th>Итог</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Threading</td><td>requests + BeautifulSoup + запись в БД</td><td>Хорош для сетевого I/O</td></tr>
+            <tr><td>Multiprocessing</td><td>Отдельный процесс на URL</td><td>Избыточен для I/O, но изолирован</td></tr>
+            <tr><td>Async</td><td>aiohttp + asyncio.gather</td><td>Лучший вариант для массовых запросов</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="lab2-conclusion" style="margin-top:22px">Выводы</h3>
+      <div class="metric-grid">
+        <div class="metric"><strong>Сумма чисел</strong><p>В этом запуске быстрее всего оказался threading: 0.0758 сек. Multiprocessing дал 0.0860 сек, а Async + ProcessPoolExecutor — 0.0780 сек. Разница небольшая, поэтому все три варианта работают почти одинаково.</p></div>
+        <div class="metric"><strong>Парсинг страниц</strong><p>Здесь быстрее всего оказался async: 0.6599 сек. Threading показал 0.8141 сек, но у него был один сбой из-за повторной записи parser_bot в БД, поэтому результат нужно смотреть с оговоркой.</p></div>
+        <div class="metric"><strong>Общий итог</strong><p>Для вычислений подходит любой вариант, если задача небольшая. Для загрузки страниц лучше async: он быстрее и проще для большого числа запросов.</p></div>
+      </div>
+      <div class="note" style="margin-top:16px">
+        Короткий вывод: для первой задачи разница между подходами почти не заметна, а для парсинга страниц лучше всего подошел async. Threading тоже работает, но в моем запуске один запрос упал из-за одинакового пользователя в базе.
+      </div>
+    </section>
+
+    <section class="section" id="lab3-details">
+      <h2>ЛР3 — Docker, парсер и Celery</h2>
+      <p class="section-subtitle">
+        Третья работа объединяет API из ЛР1, парсер-сервис, Redis и Celery. В результате получается
+        многоконтейнерная система, которую можно запускать через docker-compose.
+      </p>
+      <div class="mini-grid">
+        <div class="mini-card"><h3>Подзадача 1</h3><p>Упаковка API и парсера в Docker, запуск через compose, работа с общей БД.</p></div>
+        <div class="mini-card"><h3>Подзадача 3</h3><p>Очередь Celery + Redis для фонового выполнения парсинга без блокировки клиента.</p></div>
+      </div>
+      <h3 id="lab3-arch">Архитектура</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Сервис</th>
+              <th>Назначение</th>
+              <th>Порт / роль</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>db</td><td>PostgreSQL</td><td>5433:5432</td></tr>
+            <tr><td>redis</td><td>Брокер Celery</td><td>6379:6379</td></tr>
+            <tr><td>parser</td><td>HTTP-парсер страниц</td><td>8001:8001</td></tr>
+            <tr><td>api</td><td>Основное FastAPI-приложение</td><td>8000:8000</td></tr>
+            <tr><td>celery_worker</td><td>Фоновая обработка задач</td><td>Без публичного порта</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="lab3-stack" style="margin-top:22px">Технологический стек</h3>
+      <div class="metric-grid">
+        <div class="metric"><strong>Docker</strong><p>Изоляция сервисов и одинаковая среда запуска.</p></div>
+        <div class="metric"><strong>Redis</strong><p>Брокер очереди для Celery.</p></div>
+        <div class="metric"><strong>Celery</strong><p>Фоновая обработка парсинга.</p></div>
+      </div>
+      <h3 id="lab3-compose" style="margin-top:22px">docker-compose.yml</h3>
+      <div class="code-block">services:
+  db:
+    image: postgres:16
+  redis:
+    image: redis:7-alpine
+  parser:
+    build: ./parser
+  api:
+    build:
+      context: ../lab1
+  celery_worker:
+    build:
+      context: ../lab1</div>
+      <h3 id="lab3-celery" style="margin-top:22px">Парсер и очередь задач</h3>
+      <div class="mini-grid">
+        <div class="mini-card"><h3>Парсер-сервис</h3><p>Отдельное FastAPI-приложение, принимающее URL, загружающее HTML и сохраняющее результат в БД.</p></div>
+        <div class="mini-card"><h3>Celery worker</h3><p>Использует ту же базу и брокер, но запускается отдельной командой в том же образе.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="summary">
+      <h2>Сводка по всем трем работам</h2>
+      <p class="section-subtitle">Ниже показано, как лабораторные складываются в единый проект.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Лабораторная</th>
+              <th>Основные технологии</th>
+              <th>Ключевой результат</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ЛР1</td>
+              <td>FastAPI, SQLAlchemy, Alembic, PostgreSQL, JWT</td>
+              <td>Сервер для управления задачами и временем</td>
+            </tr>
+            <tr>
+              <td>ЛР2</td>
+              <td>threading, multiprocessing, asyncio, aiohttp, requests, BeautifulSoup</td>
+              <td>Сравнение параллельных подходов на вычислениях и парсинге</td>
+            </tr>
+            <tr>
+              <td>ЛР3</td>
+              <td>Docker, docker-compose, Redis, Celery, отдельный parser-сервис</td>
+              <td>Многоконтейнерное приложение с очередью фоновых задач</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer">
+      Подготовлено для публикации в GitHub Pages. Стартовая страница: docs/index.html.
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+version: "3.9"
+
+services:
+
+  # ── База данных PostgreSQL ──────────────────────────────────────────────────
+  db:
+    image: postgres:16
+    container_name: timemanager-db
+    environment:
+      POSTGRES_USER: georgiy
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: timemanager
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U georgiy -d timemanager"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Redis (брокер для Celery) ───────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: timemanager-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ── Парсер-сервис (ЛР2 + HTTP-интерфейс) ───────────────────────────────────
+  parser:
+    build:
+      context: ./parser
+      dockerfile: Dockerfile
+    container_name: timemanager-parser
+    ports:
+      - "8001:8001"
+    environment:
+      DATABASE_URL: postgresql://georgiy:mypassword@db:5432/timemanager
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
+  # ── Основное FastAPI-приложение (ЛР1) ───────────────────────────────────────
+  api:
+    build:
+      context: ../lab1
+      dockerfile: Dockerfile
+    container_name: timemanager-api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://georgiy:mypassword@db:5432/timemanager
+      SECRET_KEY: supersecretkey123
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      PARSER_URL: http://parser:8001
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      parser:
+        condition: service_started
+    restart: on-failure
+
+  # ── Celery Worker (обрабатывает очередь задач) ──────────────────────────────
+  celery_worker:
+    build:
+      context: ../lab1
+      dockerfile: Dockerfile
+    container_name: timemanager-celery
+    # Запускаем celery worker вместо uvicorn
+    command: celery -A app.celery_app worker --loglevel=info -Q parsing,celery
+    environment:
+      DATABASE_URL: postgresql://georgiy:mypassword@db:5432/timemanager
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      PARSER_URL: http://parser:8001
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      parser:
+        condition: service_started
+    restart: on-failure
+
+volumes:
+  postgres_data:
